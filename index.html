@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости Нарына</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+        }
+        header {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            padding: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 2rem;
+        }
+        nav {
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .section {
+            margin: 120px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            
+        }
+        .section h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        .news-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .news-card h3 {
+            margin: 0 0 10px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+        .news-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        .news-card img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        footer {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            padding: 10px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+        }
+        footer p {
+            margin: 0;
+            color: #ccc;
+        }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+            nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .container {
+                padding: 10px;
+            }
+        }
+        /* Styles for modal */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            position: relative;
+            color: #000;
+        }
+        .close {
+            color: #aaa;
+            font-size: 2rem;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+        .modal h2 {
+            color: #050505;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .modal p {
+            color: #1d1d1d;
+            line-height: 1.6;
+        }
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-section h2 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .form-section form {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-section input,
+        .form-section textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .form-section input[type="file"] {
+            padding: 5px;
+            font-size: 1rem;
+        }
+        .form-section button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #2a5298;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .form-section button:hover {
+            background: #1e3c72;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Новости Нарына</h1>
+        <nav>
+            <a href="#home">Главная</a>
+            <a href="#news">Новости</a>
+            <a href="#contacts">Контакты</a>
+            <a href="#about">О нас</a>
+        </nav>
+    </header>
+    <div class="container">
+        <section id="home" class="section">
+            <h2>Главная</h2>
+            <p>Добро пожаловать на новостной портал Нарына! Здесь вы найдете последние новости и события нашего города. Мы стремимся предоставлять вам самую актуальную и достоверную информацию. Наш портал создан с целью информирования жителей Нарына о всех значимых событиях, происходящих в нашем городе и за его пределами. Мы предлагаем новости из различных областей: политики, экономики, культуры, спорта и многих других. Будьте в курсе всех важных событий, происходящих в Нарыне, от политических новостей до культурных событий и спортивных событий. Спасибо, что вы с нами!</p>
+        </section>
+        <section id="news" class="section">
+            <h2>Новости</h2>
+            <div id="news-container">
+                <div class="news-card" onclick="openModal('modal1')">
+                    <h3>В Нарыне хотят открыть завод по сборке дронов</h3>
+                    <p>В Нарынской области планируется открыть завод по сборке беспилотных летательных аппаратов, сообщила пресс-служба полпредства президента в регионе.</p>
+                    <img src="https://sputnik.kg/img/07e8/04/04/1083972411_0:56:1080:664_600x0_80_0_0_ff559277673ceaad59d0d0f695b41774.jpg.webp" alt="Изображение новости 1">
+                </div>
+                <div class="news-card" onclick="openModal('modal2')">
+                    <h3>Подготовка к строительству "Камбар-Аты 1" завершится в конце года — Минэнерго</h3>
+                    <p>Подготовка к строительству Камбар-Атинской ГЭС-1 завершится в конце этого года, сообщает Министерство энергетики КР./p>
+                    <img src="https://st-0.akipress.org/cdn-st-0/qes/R/2630018.b30fb847496088670f7ee2bf91dc6d5f.jpg" alt="Изображение новости 2">
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>Добавить новость</h2>
+                <form id="news-form">
+                    <input type="text" id="news-title" placeholder="Заголовок новости" required>
+                    <textarea id="news-description" placeholder="Описание новости" required></textarea>
+                    <textarea id="news-content" placeholder="Полная информация о новости" required></textarea>
+                    <input type="file" id="news-image" accept="image/*" required>
+                    <button type="submit">Добавить новость</button>
+                </form>
+            </div>
+        </section>
+        <section id="contacts" class="section">
+            <h2>Контакты</h2>
+            <p>Если у вас есть вопросы или предложения, свяжитесь с нами по электронной почте: info@newsnaryn.kg или по телефону: +996 705525252. Мы всегда открыты для обратной связи и готовы выслушать ваши предложения по улучшению нашего портала. Наши контакты также могут быть полезны для вас, если вы хотите поделиться новостями или событиями, которые, по вашему мнению, должны быть освещены на нашем сайте. Мы ценим вашу активность и заинтересованность в жизни нашего города. Спасибо, что выбираете нас!</p>
+        </section>
+        <section id="about" class="section">
+            <h2>О нас</h2>
+            <p>Наш портал предоставляет актуальные и достоверные новости о событиях в Нарыне. Мы стремимся к тому, чтобы вы всегда были в курсе всех важных событий. Наша команда журналистов и редакторов работает круглосуточно, чтобы предоставить вам свежие новости и аналитические материалы. Мы гордимся тем, что можем быть вашим надежным источником информации. Наш портал создан для того, чтобы жители Нарына могли получать новости быстро и удобно, находясь в одном месте. Мы продолжаем работать над улучшением нашего сервиса и надеемся, что он станет еще лучше с вашей помощью и поддержкой.</p>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2024 Новости Нарына</p>
+    </footer>
+
+    <!-- Modal Template -->
+    <div id="news-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title">Подготовка к строительству "Камбар-Аты 1" завершится в конце года — Минэнерго</h2>
+            <p id="modal-content">Сейчас на месте строят дорогу протяженностью 5,6 километра, тоннель, мост, временный лагерь для рабочих, высоковольтную линию и подстанции."Один из отводных каналов для сворачивания русла реки Нарын уже готов. КАГЭС-1 мощностью 1 860 мегаватт обеспечит энергетическую безопасность страны. Высота плотины составит 256 метров, а объем водохранилища — более 5,4 миллиарда кубометров", — информирует Минэнерго.</p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, content) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-content').innerText = content;
+            document.getElementById('news-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('news-modal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                closeModal();
+            }
+        }
+
+        document.getElementById('news-form').onsubmit = function(event) {
+            event.preventDefault();
+
+            const newsTitle = document.getElementById('news-title').value;
+            const newsDescription = document.getElementById('news-description').value;
+            const newsContent = document.getElementById('news-content').value;
+            const newsImage = document.getElementById('news-image').files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = function() {
+                const newsContainer = document.getElementById('news-container');
+                const newsCard = document.createElement('div');
+                newsCard.className = 'news-card';
+                newsCard.onclick = () => openModal(newsTitle, newsContent);
+
+                const newsTitleElement = document.createElement('h3');
+                newsTitleElement.textContent = newsTitle;
+                newsCard.appendChild(newsTitleElement);
+
+                const newsDescriptionElement = document.createElement('p');
+                newsDescriptionElement.textContent = newsDescription;
+                newsCard.appendChild(newsDescriptionElement);
+
+                if (newsImage) {
+                    const newsImageElement = document.createElement('img');
+                    newsImageElement.src = reader.result;
+                    newsCard.appendChild(newsImageElement);
+                }
+
+                newsContainer.appendChild(newsCard);
+
+                document.getElementById('news-form').reset();
+            };
+
+            if (newsImage) {
+                reader.readAsDataURL(newsImage);
+            } else {
+                reader.onloadend();
+            }
+        };
+    </script>
+</body>
+</html>
